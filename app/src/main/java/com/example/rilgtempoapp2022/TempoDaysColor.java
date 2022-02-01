@@ -33,13 +33,13 @@ public class TempoDaysColor {
 
         @SerializedName("Tempo")
         @Expose
-        private String tempo;
+        private TempoColor tempo;
 
-        public String getTempo() {
+        public TempoColor getTempo() {
             return tempo;
         }
 
-        public void setTempo(String tempo) {
+        public void setTempo(TempoColor tempo) {
             this.tempo = tempo;
         }
 
@@ -49,13 +49,13 @@ public class TempoDaysColor {
 
         @SerializedName("Tempo")
         @Expose
-        private String tempo;
+        private TempoColor tempo;
 
-        public String getTempo() {
+        public TempoColor getTempo() {
             return tempo;
         }
 
-        public void setTempo(String tempo) {
+        public void setTempo(TempoColor tempo) {
             this.tempo = tempo;
         }
 
