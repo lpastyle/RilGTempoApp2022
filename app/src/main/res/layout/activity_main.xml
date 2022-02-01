@@ -6,13 +6,54 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-    <TextView
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideline"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_percent="0.8" />
+
+    <TextView
+        android:id="@+id/blue_days_tv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
         android:text="Hello World!"
+        app:layout_constraintBottom_toTopOf="@+id/history_bt"
+        app:layout_constraintEnd_toStartOf="@+id/white_days_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/white_days_tv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/history_bt"
+        app:layout_constraintEnd_toStartOf="@+id/red_days_tv"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/blue_days_tv"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <TextView
+        android:id="@+id/red_days_tv"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="TextView"
+        app:layout_constraintBottom_toTopOf="@+id/history_bt"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/white_days_tv"
+        app:layout_constraintTop_toTopOf="@+id/guideline" />
+
+    <Button
+        android:id="@+id/history_bt"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:text="Button"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/blue_days_tv" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
