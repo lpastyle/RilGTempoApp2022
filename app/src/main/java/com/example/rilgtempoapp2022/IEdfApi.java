@@ -5,6 +5,8 @@ import retrofit2.http.GET;
 
 public interface IEdfApi {
 
+    String EDF_TEMPO_ALERT_TYPE = "TEMPO";
+
     // https://particulier.edf.fr/bin/edf_rc/servlets/ejptempodaysnew?TypeAlerte=TEMPO
     @GET("bin/edf_rc/servlets/ejptempodaysnew")
     Call<TempoDaysLeft> getTempoDaysLeft(

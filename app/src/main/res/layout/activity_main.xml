@@ -6,7 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".MainActivity">
 
-
     <com.example.rilgtempoapp2022.DayColorView
         android:id="@+id/today_dcv"
         android:layout_width="0dp"

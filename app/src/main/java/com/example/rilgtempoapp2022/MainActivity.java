@@ -44,9 +44,38 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
+        updateNbTempoDaysLeft();
+        updateNbTempoDaysColors();
+    }
+
+    private void updateNbTempoDaysColors() {
+        if (edfApi != null) {
+
+            // create call
+            Call<TempoDaysColor> call = edfApi.getTempoDaysColor("2022-02-02", IEdfApi.EDF_TEMPO_ALERT_TYPE);
+
+            // launch call
+            call.enqueue(new Callback<TempoDaysColor>() {
+                @Override
+                public void onResponse(Call<TempoDaysColor> call, Response<TempoDaysColor> response) {
+                    if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
+                        Log.d(LOG_TAG, "J day color = " + response.body().getJourJ().getTempo().toString());
+                        Log.d(LOG_TAG, "J1 day color = " + response.body().getJourJ1().getTempo().toString());
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<TempoDaysColor> call, Throwable t) {
+                    Log.e(LOG_TAG, "Call to 'getTempoDaysColor' request failed");
+                }
+            });
+        }
+    }
+
+    private void updateNbTempoDaysLeft() {
         if (edfApi != null) {
             // create call
-            Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft("TEMPO");
+            Call<TempoDaysLeft> call = edfApi.getTempoDaysLeft(IEdfApi.EDF_TEMPO_ALERT_TYPE);
 
             // launch call
             call.enqueue(new Callback<TempoDaysLeft>() {
@@ -69,6 +98,6 @@ public class MainActivity extends AppCompatActivity {
             });
         }
 
-
     }
+
 }
