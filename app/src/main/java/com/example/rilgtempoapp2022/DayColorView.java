@@ -10,74 +10,83 @@ import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import androidx.core.content.ContextCompat;
+
 /**
  * TODO: document your custom view class.
  */
 public class DayColorView extends View {
-    private String mExampleString; // TODO: use a default from R.string...
-    private int mExampleColor = Color.RED; // TODO: use a default from R.color...
-    private float mExampleDimension = 0; // TODO: use a default from R.dimen...
-    private Drawable mExampleDrawable;
+    Context context;
 
-    private TextPaint mTextPaint;
-    private float mTextWidth;
-    private float mTextHeight;
+    // custom attributes data
+    private String captionText;
+    private int captionTextColor = Color.BLACK; // default value
+    private float captionTextSize = 14;
+    private int dayCircleColor;
+
+    private TextPaint textPaint;
+    private Paint circlePaint;
+    private float textWidth;
+    private float textHeight;
 
     public DayColorView(Context context) {
         super(context);
+        this.context = context;
         init(null, 0);
     }
 
     public DayColorView(Context context, AttributeSet attrs) {
         super(context, attrs);
+        this.context = context;
         init(attrs, 0);
     }
 
     public DayColorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        this.context = context;
         init(attrs, defStyle);
     }
 
-    private void init(AttributeSet attrs, int defStyle) {
-        // Load attributes
-        final TypedArray a = getContext().obtainStyledAttributes(
-                attrs, R.styleable.DayColorView, defStyle, 0);
+    private void init(Context context, AttributeSet attrs, int defStyle) {
+        // keep context
+        this.context = context;
+        // Load custom attributes
+        final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DayColorView, defStyle, 0);
+        captionText = a.getString(R.styleable.DayColorView_captionText);
+        captionTextColor = a.getColor(R.styleable.DayColorView_captionTextColor, ContextCompat.getColor(context, R.color.black));
+        captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
+        dayCircleColor = a.getColor(R.styleable.DayColorView_dayCircleColor, ContextCompat.getColor(context, R.color.tempo_undecided_day_bg));
 
-        mExampleString = a.getString(
-                R.styleable.DayColorView_exampleString);
-        mExampleColor = a.getColor(
-                R.styleable.DayColorView_exampleColor,
-                mExampleColor);
-        // Use getDimensionPixelSize or getDimensionPixelOffset when dealing with
-        // values that should fall on pixel boundaries.
-        mExampleDimension = a.getDimension(
-                R.styleable.DayColorView_exampleDimension,
-                mExampleDimension);
-
-        if (a.hasValue(R.styleable.DayColorView_exampleDrawable)) {
-            mExampleDrawable = a.getDrawable(
-                    R.styleable.DayColorView_exampleDrawable);
-            mExampleDrawable.setCallback(this);
-        }
-
+        // Recycles the TypedArray, to be re-used by a later caller
         a.recycle();
 
-        // Set up a default TextPaint object
-        mTextPaint = new TextPaint();
-        mTextPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
-        mTextPaint.setTextAlign(Paint.Align.LEFT);
+        // set a text paint and corresponding text measurements from attributes
+        textPaint = new TextPaint();
+        setTextPaintAndMeasurements();
 
-        // Update TextPaint and text measurements from attributes
-        invalidateTextPaintAndMeasurements();
+        // set a circle paint from attributes
+        circlePaint = new Paint();
+        setCirclePaint();
     }
 
-    private void invalidateTextPaintAndMeasurements() {
-        mTextPaint.setTextSize(mExampleDimension);
-        mTextPaint.setColor(mExampleColor);
-        mTextWidth = mTextPaint.measureText(mExampleString);
+    private void setTextPaintAndMeasurements() {
 
-        Paint.FontMetrics fontMetrics = mTextPaint.getFontMetrics();
-        mTextHeight = fontMetrics.bottom;
+        // Set up a default TextPaint object
+        textPaint.setFlags(Paint.ANTI_ALIAS_FLAG);
+        textPaint.setTextAlign(Paint.Align.LEFT);
+        textPaint.setTextSize(captionTextSize);
+        textPaint.setColor(captionTextColor);
+
+        // compute dimensions to be used for drawing text
+        textWidth = textPaint.measureText(captionText);
+        Paint.FontMetrics fontMetrics = textPaint.getFontMetrics();
+        textHeight = fontMetrics.bottom;
+    }
+
+    private void setCirclePaint() {
+        // set up a default Pain object to draw circle
+        circlePaint.setStyle(Paint.Style.FILL);
+        circlePaint.setColor(dayCircleColor);
     }
 
     @Override
