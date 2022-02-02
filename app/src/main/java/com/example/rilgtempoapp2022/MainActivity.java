@@ -3,8 +3,10 @@ package com.example.rilgtempoapp2022;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.TextView;
 
 import java.net.HttpURLConnection;
@@ -105,4 +107,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void showHistory(View view) {
+        Log.d(LOG_TAG,"showHistory()");
+        Intent intent = new Intent();
+        intent.setClass(this, HistoryActivity.class);
+        startActivity(intent);
+    }
 }

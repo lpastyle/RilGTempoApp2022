@@ -1,5 +1,6 @@
 <resources>
-    <string name="app_name">RilGTempoApp2022</string>
+    <string name="app_name">TempoApp</string>
+    <string name="history_activity_title">Historique Tempo</string>
 
     <string name="history_button_tx">Historique</string>
     <string name="dcv_tomorrow_tx">Demain</string>
