@@ -49,6 +49,12 @@ public class MainActivity extends AppCompatActivity {
             Log.e(LOG_TAG,"retrofit init failed" );
             finish();
         }
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         updateNbTempoDaysLeft();
         updateNbTempoDaysColors();
     }
