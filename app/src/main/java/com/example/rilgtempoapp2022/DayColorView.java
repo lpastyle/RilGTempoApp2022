@@ -5,24 +5,26 @@ import android.content.res.TypedArray;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
-import android.graphics.drawable.Drawable;
 import android.text.TextPaint;
 import android.util.AttributeSet;
 import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
+import com.example.rilgtempoapp2022.TempoColor;
+
 /**
- * TODO: document your custom view class.
+ * Custom view to display tempo color
  */
-public class DayColorView extends View {
+class DayColorView extends View {
     Context context;
+    static final float CIRCLE_SCALE = 0.9f; // half circle will occupy 90% of view
 
     // custom attributes data
     private String captionText;
     private int captionTextColor = Color.BLACK; // default value
     private float captionTextSize = 14;
-    private int dayCircleColor;
+    private int dayCircleColor = Color.GRAY;
 
     private TextPaint textPaint;
     private Paint circlePaint;
@@ -32,19 +34,17 @@ public class DayColorView extends View {
     public DayColorView(Context context) {
         super(context);
         this.context = context;
-        init(null, 0);
+        init(context, null, 0);
     }
 
     public DayColorView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        this.context = context;
-        init(attrs, 0);
+        init(context, attrs, 0);
     }
 
     public DayColorView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
-        this.context = context;
-        init(attrs, defStyle);
+        init(context, attrs, defStyle);
     }
 
     private void init(Context context, AttributeSet attrs, int defStyle) {
@@ -93,8 +93,7 @@ public class DayColorView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
 
-        // TODO: consider storing these as member variables to reduce
-        // allocations per draw cycle.
+        // compute view dimensions
         int paddingLeft = getPaddingLeft();
         int paddingTop = getPaddingTop();
         int paddingRight = getPaddingRight();
@@ -103,96 +102,21 @@ public class DayColorView extends View {
         int contentWidth = getWidth() - paddingLeft - paddingRight;
         int contentHeight = getHeight() - paddingTop - paddingBottom;
 
-        // Draw the text.
-        canvas.drawText(mExampleString,
-                paddingLeft + (contentWidth - mTextWidth) / 2,
-                paddingTop + (contentHeight + mTextHeight) / 2,
-                mTextPaint);
+        // Draw the background circle with the expected color
+        float radius = Math.min(contentWidth, contentHeight) * 0.5f * CIRCLE_SCALE;
+        canvas.drawCircle(contentWidth * 0.5f, contentHeight * 0.5f, radius, circlePaint );
 
-        // Draw the example drawable on top of the text.
-        if (mExampleDrawable != null) {
-            mExampleDrawable.setBounds(paddingLeft, paddingTop,
-                    paddingLeft + contentWidth, paddingTop + contentHeight);
-            mExampleDrawable.draw(canvas);
-        }
+        // Draw the caption text.
+        canvas.drawText(captionText,
+                paddingLeft + (contentWidth - textWidth) / 2,
+                paddingTop + (contentHeight + textHeight) / 2,
+                textPaint);
     }
 
-    /**
-     * Gets the example string attribute value.
-     *
-     * @return The example string attribute value.
-     */
-    public String getExampleString() {
-        return mExampleString;
+    public void setDayColor(TempoColor color) {
+        dayCircleColor = ContextCompat.getColor(context, color.getResId());
+        setCirclePaint();
+        invalidate();
     }
 
-    /**
-     * Sets the view"s example string attribute value. In the example view, this string
-     * is the text to draw.
-     *
-     * @param exampleString The example string attribute value to use.
-     */
-    public void setExampleString(String exampleString) {
-        mExampleString = exampleString;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example color attribute value.
-     *
-     * @return The example color attribute value.
-     */
-    public int getExampleColor() {
-        return mExampleColor;
-    }
-
-    /**
-     * Sets the view"s example color attribute value. In the example view, this color
-     * is the font color.
-     *
-     * @param exampleColor The example color attribute value to use.
-     */
-    public void setExampleColor(int exampleColor) {
-        mExampleColor = exampleColor;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example dimension attribute value.
-     *
-     * @return The example dimension attribute value.
-     */
-    public float getExampleDimension() {
-        return mExampleDimension;
-    }
-
-    /**
-     * Sets the view"s example dimension attribute value. In the example view, this dimension
-     * is the font size.
-     *
-     * @param exampleDimension The example dimension attribute value to use.
-     */
-    public void setExampleDimension(float exampleDimension) {
-        mExampleDimension = exampleDimension;
-        invalidateTextPaintAndMeasurements();
-    }
-
-    /**
-     * Gets the example drawable attribute value.
-     *
-     * @return The example drawable attribute value.
-     */
-    public Drawable getExampleDrawable() {
-        return mExampleDrawable;
-    }
-
-    /**
-     * Sets the view"s example drawable attribute value. In the example view, this drawable is
-     * drawn above the text.
-     *
-     * @param exampleDrawable The example drawable attribute value to use.
-     */
-    public void setExampleDrawable(Drawable exampleDrawable) {
-        mExampleDrawable = exampleDrawable;
-    }
 }
