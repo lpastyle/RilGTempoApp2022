@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView whiteDaysTv;
     private TextView blueDaysTv;
 
+    private DayColorView todayDcv;
+    private DayColorView tomorrowDcv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +35,8 @@ public class MainActivity extends AppCompatActivity {
         redDaysTv = findViewById(R.id.red_days_tv);
         whiteDaysTv = findViewById(R.id.white_days_tv);
         blueDaysTv = findViewById(R.id.blue_days_tv);
+        todayDcv = findViewById(R.id.today_dcv);
+        tomorrowDcv = findViewById(R.id.tomorrow_dcv);
 
         // init Retrofit client
         Retrofit retrofitClient = ApiClient.get();
@@ -43,7 +47,6 @@ public class MainActivity extends AppCompatActivity {
             Log.e(LOG_TAG,"retrofit init failed" );
             finish();
         }
-
         updateNbTempoDaysLeft();
         updateNbTempoDaysColors();
     }
@@ -61,6 +64,8 @@ public class MainActivity extends AppCompatActivity {
                     if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                         Log.d(LOG_TAG, "J day color = " + response.body().getJourJ().getTempo().toString());
                         Log.d(LOG_TAG, "J1 day color = " + response.body().getJourJ1().getTempo().toString());
+                        todayDcv.setDayColor(response.body().getJourJ().getTempo());
+                        tomorrowDcv.setDayColor(response.body().getJourJ1().getTempo());
                     }
                 }
 

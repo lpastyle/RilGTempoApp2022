@@ -1,6 +1,9 @@
 <resources>
     <string name="app_name">RilGTempoApp2022</string>
 
+    <string name="history_button_tx">Historique</string>
+    <string name="dcv_tomorrow_tx">Demain</string>
+    <string name="dcv_today_tx">Aujourd\'hui</string>
     <string name="not_available">ND</string>
 
 </resources>
