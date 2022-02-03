@@ -38,7 +38,7 @@ public class HistoryActivity extends AppCompatActivity {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(this);
         tempoDateRv.setLayoutManager(layoutManager);
 
-        tempoDateAdapter = new TempoDateAdapter();
+        tempoDateAdapter = new TempoDateAdapter(this, tempoDates);
         //tempoDateRv.setAdapter(tempoDateAdapter);
 
     }
