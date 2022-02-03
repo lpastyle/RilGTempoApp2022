@@ -2,6 +2,8 @@ package com.example.rilgtempoapp2022;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -74,21 +76,44 @@ public class MainActivity extends AppCompatActivity {
             // launch call
             call.enqueue(new Callback<TempoDaysColor>() {
                 @Override
-                public void onResponse(Call<TempoDaysColor> call, Response<TempoDaysColor> response) {
-                    if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
-                        Log.d(LOG_TAG, "J day color = " + response.body().getJourJ().getTempo().toString());
-                        Log.d(LOG_TAG, "J1 day color = " + response.body().getJourJ1().getTempo().toString());
-                        todayDcv.setDayColor(response.body().getJourJ().getTempo());
-                        tomorrowDcv.setDayColor(response.body().getJourJ1().getTempo());
+                public void onResponse(@NonNull Call<TempoDaysColor> call, @NonNull Response<TempoDaysColor> response) {
+                    TempoDaysColor tempoDaysColor = response.body();
+                    if (response.code() == HttpURLConnection.HTTP_OK && tempoDaysColor != null) {
+                        Log.d(LOG_TAG, "J day color = " + tempoDaysColor.getJourJ().getTempo().toString());
+                        Log.d(LOG_TAG, "J1 day color = " + tempoDaysColor.getJourJ1().getTempo().toString());
+                        todayDcv.setDayColor(tempoDaysColor.getJourJ().getTempo());
+                        tomorrowDcv.setDayColor(tempoDaysColor.getJourJ1().getTempo());
+                        // this call is for notification demo purpose only, it should be done in a service to have sense
+                        // checkColor4notif(tempoDaysColor);
                     }
                 }
 
                 @Override
-                public void onFailure(Call<TempoDaysColor> call, Throwable t) {
+                public void onFailure(@NonNull Call<TempoDaysColor> call, @NonNull Throwable t) {
                     Log.e(LOG_TAG, "Call to 'getTempoDaysColor' request failed");
                 }
             });
         }
+    }
+
+    private void checkColor4notif(TempoDaysColor tempoDaysColor) {
+        Log.d(LOG_TAG,"checkColor4notif()");
+   // if (tempoDaysColor.getJourJ1().getTempo() == TempoColor.RED || tempoDaysColor.getJourJ1().getTempo() == TempoColor.WHITE) {
+        // Create notification
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+            .setSmallIcon(R.drawable.ic_launcher_foreground)
+            .setContentTitle(getString(R.string.tempo_alert_title))
+            .setContentText(getString(R.string.tempo_alert_message, tempoDaysColor.getJourJ1().getTempo()))
+            .setPriority(NotificationCompat.PRIORITY_DEFAULT);
+
+        // show notification
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+
+        // notificationId is a unique int for each notification that you must define
+        int nid = Tools.getNextNotifId();
+        Log.d(LOG_TAG, "create notif n°" + nid);
+        notificationManager.notify(nid, builder.build());
+   // }
     }
 
     private void updateNbTempoDaysLeft() {

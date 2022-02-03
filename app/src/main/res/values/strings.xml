@@ -10,6 +10,8 @@
 
     <string name="channel_name">Alertes Tempo</string>
     <string name="channel_description">Avertissement pour les jours rouges et blanc</string>
+    <string name="tempo_alert_title">Alerte Tempo</string>
+    <string name="tempo_alert_message">Attention demain jour %s</string>
 
 
 </resources>
