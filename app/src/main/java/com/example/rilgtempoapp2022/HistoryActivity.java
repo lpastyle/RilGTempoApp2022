@@ -21,8 +21,8 @@ public class HistoryActivity extends AppCompatActivity {
     private final List<TempoDate> tempoDates = new ArrayList<>();
 
     // views
-    RecyclerView tempoDateRv;
-    TempoDateAdapter tempoDateAdapter;
+    private RecyclerView tempoDateRv;
+    private TempoDateAdapter tempoDateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

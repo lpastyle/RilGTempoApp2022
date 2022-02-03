@@ -6,5 +6,6 @@
     <string name="dcv_tomorrow_tx">Demain</string>
     <string name="dcv_today_tx">Aujourd\'hui</string>
     <string name="not_available">ND</string>
+    <string name="history_bt">Historique</string>
 
 </resources>

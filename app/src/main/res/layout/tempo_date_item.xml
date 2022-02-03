@@ -13,6 +13,8 @@
         android:layout_marginEnd="8dp"
         android:layout_marginTop="4dp"
         android:text="TextView"
+        android:textStyle="bold"
+        android:textSize="@dimen/days_left_text_size"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/guideline"
         app:layout_constraintStart_toStartOf="parent"
