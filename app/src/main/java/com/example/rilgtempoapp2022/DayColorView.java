@@ -11,8 +11,6 @@ import android.view.View;
 
 import androidx.core.content.ContextCompat;
 
-import com.example.rilgtempoapp2022.TempoColor;
-
 /**
  * Custom view to display tempo color
  */
@@ -52,14 +50,19 @@ class DayColorView extends View {
         this.context = context;
         // Load custom attributes
         final TypedArray a = getContext().obtainStyledAttributes(attrs, R.styleable.DayColorView, defStyle, 0);
-        captionText = a.getString(R.styleable.DayColorView_captionText);
-        if (captionText == null) captionText = "undefined";
-        captionTextColor = a.getColor(R.styleable.DayColorView_captionTextColor, ContextCompat.getColor(context, R.color.black));
-        captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
-        dayCircleColor = a.getColor(R.styleable.DayColorView_dayCircleColor, ContextCompat.getColor(context, R.color.tempo_undecided_day_bg));
-
-        // Recycles the TypedArray, to be re-used by a later caller
-        a.recycle();
+        try {
+            captionText = a.getString(R.styleable.DayColorView_captionText);
+            // give a default caption value if attribute was not set
+            if (captionText == null) {
+                captionText = context.getString(R.string.not_available);
+            }
+            captionTextColor = a.getColor(R.styleable.DayColorView_captionTextColor, ContextCompat.getColor(context, R.color.black));
+            captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
+            dayCircleColor = a.getColor(R.styleable.DayColorView_dayCircleColor, ContextCompat.getColor(context, R.color.tempo_undecided_day_bg));
+        } finally {
+            // Recycles the TypedArray, to be re-used by a later caller
+            a.recycle();
+        }
 
         // set a text paint and corresponding text measurements from attributes
         textPaint = new TextPaint();
