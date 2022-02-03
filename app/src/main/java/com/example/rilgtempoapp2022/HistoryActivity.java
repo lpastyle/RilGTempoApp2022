@@ -39,7 +39,7 @@ public class HistoryActivity extends AppCompatActivity {
         tempoDateRv.setLayoutManager(layoutManager);
 
         tempoDateAdapter = new TempoDateAdapter(this, tempoDates);
-        //tempoDateRv.setAdapter(tempoDateAdapter);
+        tempoDateRv.setAdapter(tempoDateAdapter);
 
     }
 
@@ -60,12 +60,14 @@ public class HistoryActivity extends AppCompatActivity {
             call.enqueue(new Callback<TempoHistory>() {
                 @Override
                 public void onResponse(Call<TempoHistory> call, Response<TempoHistory> response) {
+                    tempoDates.clear();
                     if (response.code() == HttpURLConnection.HTTP_OK && response.body() != null) {
                         TempoHistory tempoHistory = response.body();
                         tempoDates.addAll(tempoHistory.getTempoDates());
                         Log.d(LOG_TAG, "nb elements = "+ tempoDates.size());
-                        showTempoHistoryDates(tempoDates);
+                        //showTempoHistoryDates(tempoDates);
                     }
+                    tempoDateAdapter.notifyDataSetChanged();
                 }
 
                 @Override
