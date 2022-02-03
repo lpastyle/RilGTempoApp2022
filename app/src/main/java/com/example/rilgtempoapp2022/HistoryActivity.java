@@ -39,7 +39,7 @@ public class HistoryActivity extends AppCompatActivity {
         tempoDateRv.setLayoutManager(layoutManager);
 
         tempoDateAdapter = new TempoDateAdapter();
-        tempoDateRv.setAdapter(tempoDateAdapter);
+        //tempoDateRv.setAdapter(tempoDateAdapter);
 
     }
 
@@ -64,6 +64,7 @@ public class HistoryActivity extends AppCompatActivity {
                         TempoHistory tempoHistory = response.body();
                         tempoDates.addAll(tempoHistory.getTempoDates());
                         Log.d(LOG_TAG, "nb elements = "+ tempoDates.size());
+                        showTempoHistoryDates(tempoDates);
                     }
                 }
 
@@ -75,6 +76,14 @@ public class HistoryActivity extends AppCompatActivity {
         }
 
 
+    }
+
+    // -------------- HELPER FUNCTIONS ---------------
+
+    private void showTempoHistoryDates(List<TempoDate> tempoDates) {
+        for(TempoDate tempoDate : tempoDates) {
+             Log.d(LOG_TAG,"Date="+tempoDate.getDate()+" Color="+tempoDate.getCouleur());
+        }
     }
 
 }

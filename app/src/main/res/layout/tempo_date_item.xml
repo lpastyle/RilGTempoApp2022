@@ -26,7 +26,7 @@
         app:layout_constraintGuide_percent="0.75" />
 
     <FrameLayout
-        android:id="@+id/color-fl"
+        android:id="@+id/color_fl"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:layout_marginTop="4dp"
