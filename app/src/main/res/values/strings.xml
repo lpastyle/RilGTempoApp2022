@@ -13,5 +13,6 @@
     <string name="tempo_alert_title">Alerte Tempo</string>
     <string name="tempo_alert_message">Attention demain jour %s</string>
 
+    <string name="toast_network_error">Erreur réseau API EDF</string>
 
 </resources>

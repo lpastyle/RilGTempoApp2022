@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 import java.util.ArrayList;
@@ -17,7 +19,7 @@ import retrofit2.Response;
 
 public class HistoryActivity extends AppCompatActivity {
     private static final String LOG_TAG = HistoryActivity.class.getSimpleName();
-
+    private final Context context = this;
     private final List<TempoDate> tempoDates = new ArrayList<>();
 
     // views
@@ -73,6 +75,8 @@ public class HistoryActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(Call<TempoHistory> call, Throwable t) {
                     Log.e(LOG_TAG, "Call to 'getTempoHistory' failed");
+                    Toast toast = Toast.makeText(context, R.string.toast_network_error, Toast.LENGTH_LONG);
+                    toast.show();
                 }
             });
         }

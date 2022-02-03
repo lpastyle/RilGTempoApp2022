@@ -7,12 +7,14 @@ import androidx.core.app.NotificationManagerCompat;
 
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.net.HttpURLConnection;
 
@@ -25,6 +27,7 @@ public class MainActivity extends AppCompatActivity {
     public static String LOG_TAG = MainActivity.class.toString();
     private static final String  CHANNEL_ID = "tempo_notif_channel_id";
     public static IEdfApi edfApi = null;
+    private final Context context = this;
 
     // views
     private TextView redDaysTv;
@@ -84,13 +87,16 @@ public class MainActivity extends AppCompatActivity {
                         todayDcv.setDayColor(tempoDaysColor.getJourJ().getTempo());
                         tomorrowDcv.setDayColor(tempoDaysColor.getJourJ1().getTempo());
                         // this call is for notification demo purpose only, it should be done in a service to have sense
-                        // checkColor4notif(tempoDaysColor);
+                        checkColor4notif(tempoDaysColor);
                     }
                 }
 
                 @Override
                 public void onFailure(@NonNull Call<TempoDaysColor> call, @NonNull Throwable t) {
                     Log.e(LOG_TAG, "Call to 'getTempoDaysColor' request failed");
+                    Toast toast = Toast.makeText(context, R.string.toast_network_error, Toast.LENGTH_LONG);
+                    toast.show();
+
                 }
             });
         }
@@ -98,22 +104,22 @@ public class MainActivity extends AppCompatActivity {
 
     private void checkColor4notif(TempoDaysColor tempoDaysColor) {
         Log.d(LOG_TAG,"checkColor4notif()");
-   // if (tempoDaysColor.getJourJ1().getTempo() == TempoColor.RED || tempoDaysColor.getJourJ1().getTempo() == TempoColor.WHITE) {
-        // Create notification
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+        if (tempoDaysColor.getJourJ1().getTempo() == TempoColor.RED || tempoDaysColor.getJourJ1().getTempo() == TempoColor.WHITE) {
+            // Create notification
+            NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
             .setSmallIcon(R.drawable.ic_launcher_foreground)
             .setContentTitle(getString(R.string.tempo_alert_title))
             .setContentText(getString(R.string.tempo_alert_message, tempoDaysColor.getJourJ1().getTempo()))
             .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        // show notification
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+            // show notification
+            NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
 
-        // notificationId is a unique int for each notification that you must define
-        int nid = Tools.getNextNotifId();
-        Log.d(LOG_TAG, "create notif n°" + nid);
-        notificationManager.notify(nid, builder.build());
-   // }
+            // notificationId is a unique int for each notification that you must define
+            int nid = Tools.getNextNotifId();
+            Log.d(LOG_TAG, "create notif n°" + nid);
+            notificationManager.notify(nid, builder.build());
+        }
     }
 
     private void updateNbTempoDaysLeft() {
@@ -138,6 +144,8 @@ public class MainActivity extends AppCompatActivity {
                 @Override
                 public void onFailure(@NonNull Call<TempoDaysLeft> call, @NonNull Throwable t) {
                     Log.e(LOG_TAG, "Call to 'getTempoDaysLeft' request failed");
+                    Toast toast = Toast.makeText(context, R.string.toast_network_error, Toast.LENGTH_LONG);
+                    toast.show();
                 }
             });
         }
