@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
                         todayDcv.setDayColor(tempoDaysColor.getJourJ().getTempo());
                         tomorrowDcv.setDayColor(tempoDaysColor.getJourJ1().getTempo());
                         // this call is for notification demo purpose only, it should be done in a service to have sense
-                        checkColor4notif(tempoDaysColor);
+                        // checkColor4notif(tempoDaysColor);
                     }
                 }
 
