@@ -14,7 +14,7 @@ import androidx.core.content.ContextCompat;
 /**
  * Custom view to display tempo color
  */
-class DayColorView extends View {
+public class DayColorView extends View {
     Context context;
     static final float CIRCLE_SCALE = 0.9f; // half circle will occupy 90% of view
 
@@ -31,7 +31,6 @@ class DayColorView extends View {
 
     public DayColorView(Context context) {
         super(context);
-        this.context = context;
         init(context, null, 0);
     }
 
@@ -54,7 +53,7 @@ class DayColorView extends View {
             captionText = a.getString(R.styleable.DayColorView_captionText);
             // give a default caption value if attribute was not set
             if (captionText == null) {
-                captionText = context.getString(R.string.not_available);
+                captionText = context.getString(R.string.not_set);
             }
             captionTextColor = a.getColor(R.styleable.DayColorView_captionTextColor, ContextCompat.getColor(context, R.color.black));
             captionTextSize = a.getDimension(R.styleable.DayColorView_captionTextSize, getResources().getDimension(R.dimen.tempo_color_text_size));
