@@ -1,5 +1,7 @@
 package com.example.rilgtempoapp2022;
 
+import static com.example.rilgtempoapp2022.Tools.getNowDate;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -55,8 +57,12 @@ public class HistoryActivity extends AppCompatActivity {
     private void refreshTempoDates() {
         if (MainActivity.edfApi != null) {
 
+            // get date range
+            String yearNow = getNowDate("yyyy");
+            String yearBefore = String.valueOf(Integer.parseInt(yearNow) - 1);
+
            // Create API call
-            Call<TempoHistory> call = MainActivity.edfApi.getTempoHistory("2021","2022");
+            Call<TempoHistory> call = MainActivity.edfApi.getTempoHistory(yearBefore, yearNow);
 
             // launch call
             call.enqueue(new Callback<TempoHistory>() {
